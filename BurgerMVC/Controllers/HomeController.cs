@@ -1,6 +1,7 @@
-﻿using BurgerMVC.Models;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using BurgerMVC.Models.ViewModels;
 
 namespace BurgerMVC.Controllers
 {
