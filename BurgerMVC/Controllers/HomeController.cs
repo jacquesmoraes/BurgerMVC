@@ -2,21 +2,29 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BurgerMVC.Models.ViewModels;
+using BurgerMVC.Repository;
 
 namespace BurgerMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ILogger<HomeController> _logger;
+        private readonly ILancheRepository _lancheRepository;
+
+        public HomeController(ILogger<HomeController> logger, ILancheRepository lancheRepository)
         {
             _logger = logger;
+            _lancheRepository = lancheRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var homeViewModel = new HomeViewModel
+            {
+                LanchesPreferidos = _lancheRepository.LanchePreferido
+            };
+            return View(homeViewModel);
         }
 
         public IActionResult Privacy()
