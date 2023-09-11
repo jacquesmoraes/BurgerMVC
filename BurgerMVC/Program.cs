@@ -1,10 +1,14 @@
 using BurgerMVC.Context;
+using BurgerMVC.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ILancheRepository, LancheRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 
