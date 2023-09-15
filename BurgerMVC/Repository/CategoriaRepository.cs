@@ -12,6 +12,6 @@ namespace BurgerMVC.Repository
             _context = context;
         }
 
-        public IEnumerable<Categoria> Categorias => _context.Categorias;
+        public IEnumerable<Categoria> Categorias => _context.Categorias.ToList();
     }
 }

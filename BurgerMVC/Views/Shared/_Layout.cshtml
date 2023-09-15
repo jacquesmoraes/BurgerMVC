@@ -18,10 +18,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse justify-content-end">
-                    
+                    @await Component.InvokeAsync("CategoriaMenu")
+                    <a class="nav-link text-light" asp-area="" asp-controller="Contato" asp-action="Index">Contato</a>
                     <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    <a class="nav-link text-light" asp-area="" asp-controller="Lanche" asp-action="List">Lanches</a>
+                    
                     @await Component.InvokeAsync("CarrinhoCompraResumo")
+                  
                 </div>
                 
             </div>

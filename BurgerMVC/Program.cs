@@ -2,6 +2,7 @@ using BurgerMVC.Context;
 using BurgerMVC.Controllers;
 using BurgerMVC.Models;
 using BurgerMVC.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,7 +46,13 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "CategoriaFiltro",
+    pattern: "Lanche/{action}/{categoria?}",
+    defaults: new { Controller = "Lanche", Action = "List" }
+     );
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

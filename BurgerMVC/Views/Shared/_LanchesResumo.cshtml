@@ -1,7 +1,14 @@
-﻿
+﻿@model Lanche
 
 <div class="col-sm-4 col-md-4 col-lg-4">
-    <h4>@Model.Nome</h4>
     <p><img src="@Model.ImagemUrl"></p>
     <h3>Preço : @Model.Preco.ToString("c")</h3>
+    @* asp-route-tem que ser o msm nome do parametro que passa na action no controlador*@
+    <h4><a asp-controller="Lanche" asp-action="Details" asp-route-id="@Model.LancheId">@Model.Nome</a></h4>
+    <p>
+        <a class="btn btn-primary" id="cartButton" asp-controller="CarrinhoDeCompra" asp-action="AddItemCarrinho" asp-route-id="@Model.LancheId">
+            adicionar @Model.Nome no carrinho
+        </a>
+    </p>
+
 </div>

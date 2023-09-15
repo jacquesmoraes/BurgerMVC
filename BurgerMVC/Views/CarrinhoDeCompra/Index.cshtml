@@ -26,7 +26,7 @@
                         <td class="text-end">@((item.Quantidade * item.Lanche.Preco).ToString("c"))</td>
                         <td class="text-center">
                             <a asp-controller="CarrinhoDeCompras" asp-action="RemoveItemCarrinho"
-                           asp-route-lancheId="@item.Lanche.LancheId"><img src="~/images/delete.png"></a>
+                           asp-route-id="@item.Lanche.LancheId"><img src="~/images/delete.png" width="20px" height="20px"></a>
                         </td>
 
                     </tr>
@@ -44,7 +44,8 @@
 
         <div class="text-end">
             <div class="btn-group">
-                <a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout"> </a>
+                <a class="btn btn-success" asp-controller="Pedido" asp-action="Checkout">ir para pagamento</a>
+                &nbsp; &nbsp; &nbsp;
                 <a class="btn btn-primary" asp-controller="Lanche" asp-action="List">continuar comprando</a>
             </div>
 
