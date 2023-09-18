@@ -42,8 +42,38 @@ namespace BurgerMVC.Controllers
 
         public IActionResult Details(int id)
         {
-            var lancheDet = _lancheRepository.Lanches.FirstOrDefault(x => x.LancheId== id);
+            var lancheDet = _lancheRepository.GetLancheById(id);
             return View(lancheDet);
         }
+
+        public ViewResult Search(string searchString)
+        {
+            IEnumerable<Lanche> lanches;  
+            string categoriaAtual = string.Empty;
+
+            if(string.IsNullOrEmpty (searchString))
+            {
+                lanches = _lancheRepository.Lanches.OrderBy(x => x.LancheId);
+                categoriaAtual = "todos os lanches";
+            }
+
+            else
+            {
+                lanches = _lancheRepository.Lanches.Where(x => x.Nome.ToLower().Contains(searchString.ToLower()));
+                if(lanches.Any() )
+                {
+                    categoriaAtual = "lanches";
+                }
+                else { categoriaAtual = "Nenhum lanche foi encontrado";
+                }
+            }
+            return View("~/Views/Lanche/List.cshtml", new LanchesViewModel
+            {
+                lanches = lanches,
+                NovaCategoria = categoriaAtual
+            });
+
+        }
+
     }
 }

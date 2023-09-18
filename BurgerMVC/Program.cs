@@ -13,6 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ILancheRepository, LancheRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped(x => CarrinhoCompra.GetCarrinhoCompra(x));
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer
