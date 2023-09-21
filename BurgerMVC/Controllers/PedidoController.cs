@@ -23,6 +23,7 @@ namespace BurgerMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Checkout(Pedido pedido)
         {
             int totalItensPedido = 0;

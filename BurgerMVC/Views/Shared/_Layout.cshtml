@@ -21,6 +21,8 @@
                     @await Component.InvokeAsync("CategoriaMenu")
                     <a class="nav-link text-light" asp-area="" asp-controller="Contato" asp-action="Index">Contato</a>
                     <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <a class="nav-link text-light" asp-area="" asp-controller="account" asp-action="Login">Login</a>
+                    <a class="nav-link text-light" asp-area="" asp-controller="account" asp-action="Register">Register</a>
                     <form class="d-flex" role="search" asp-controller="Lanche" asp-action="Search" method="get">
                         <input class="form-control me-2" type="search" placeholder="Procurar produto" name="searchString"
                         value="@ViewData["searchString"]">
