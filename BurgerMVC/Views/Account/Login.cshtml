@@ -8,7 +8,7 @@
                 <h3>Entre com usuario e senha</h3>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <input type="hidden" asp-for="ReturnUrl" />
+                <input type="hidden" asp-for="@Model.ReturnUrl" />
                 <div class="form-floating mb-3">
                     <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                     <label asp-for="UserName" class="form-label">Email</label>

@@ -1,19 +1,22 @@
 ﻿using BurgerMVC.Context;
 using BurgerMVC.Models;
 using BurgerMVC.Models.ViewModels;
-using BurgerMVC.Repository;
+using BurgerMVC.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerMVC.Controllers
 {
+    [Authorize]
     public class CarrinhoDeCompraController : Controller
     {
+
         private readonly CarrinhoCompra _carrinhoCompras;
         private readonly ILancheRepository _lancheRepository;
 
         public CarrinhoDeCompraController(CarrinhoCompra carrinhoCompra, ILancheRepository lancheRepository)
         {
-            _carrinhoCompras= carrinhoCompra;
+            _carrinhoCompras = carrinhoCompra;
             _lancheRepository = lancheRepository;
         }
 
@@ -28,14 +31,14 @@ namespace BurgerMVC.Controllers
                 CarrinhoCompraTotal = _carrinhoCompras.Total()
             };
 
-            return View(itensVm );
+            return View(itensVm);
         }
 
         public IActionResult AddItemCarrinho(int id)
         {
-            var result = _lancheRepository.Lanches.FirstOrDefault(x => x.LancheId== id);
+            var result = _lancheRepository.Lanches.FirstOrDefault(x => x.LancheId == id);
 
-            if(result != null)
+            if (result != null)
             {
                 _carrinhoCompras.AddItem(result);
             }
@@ -48,6 +51,7 @@ namespace BurgerMVC.Controllers
 
             if (result != null)
             {
+
                 _carrinhoCompras.RemoverItem(result);
             }
             return RedirectToAction(nameof(Index));

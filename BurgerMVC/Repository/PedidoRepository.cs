@@ -1,5 +1,6 @@
 ﻿using BurgerMVC.Context;
 using BurgerMVC.Models;
+using BurgerMVC.Repository.Interfaces;
 
 namespace BurgerMVC.Repository
 {

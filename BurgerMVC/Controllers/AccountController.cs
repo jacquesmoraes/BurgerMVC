@@ -22,7 +22,7 @@ namespace BurgerMVC.Controllers
             return View(new LoginViewModel
             {
                 ReturnUrl = returnUrl
-            }); ;
+            });
         }
 
         [HttpPost]
@@ -40,12 +40,12 @@ namespace BurgerMVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user, uservm.Password, false, false);
                 if (result.Succeeded)
                 {
-                    if(string.IsNullOrEmpty(uservm.ReturnUrl))
+                    if (string.IsNullOrEmpty(uservm.ReturnUrl))
                     {
                         return RedirectToAction(nameof(Index), "Home");
 
                     }
-                    return Redirect(uservm.ReturnUrl);
+                    return LocalRedirect(uservm.ReturnUrl);
                 }
             }
             ModelState.AddModelError("", "falha ao realizar login");
@@ -65,10 +65,11 @@ namespace BurgerMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser{ UserName = registerUser.UserName };
+                var user = new IdentityUser { UserName = registerUser.UserName };
                 var result = await _userManager.CreateAsync(user, registerUser.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Member");
                     return RedirectToAction("Login", "Account");
 
                 }
@@ -80,5 +81,17 @@ namespace BurgerMVC.Controllers
             return View(registerUser);
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Clear();
+            HttpContext.User = null;
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

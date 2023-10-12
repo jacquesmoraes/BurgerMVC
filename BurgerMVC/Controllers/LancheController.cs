@@ -1,6 +1,6 @@
 ﻿using BurgerMVC.Models;
 using BurgerMVC.Models.ViewModels;
-using BurgerMVC.Repository;
+using BurgerMVC.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerMVC.Controllers
@@ -26,12 +26,12 @@ namespace BurgerMVC.Controllers
 
             {
 
-                 lanches = _lancheRepository.Lanches.Where(x => x.Categoria.CategoriaNome.Equals(categoria)).OrderBy(x => x.Nome);
+                lanches = _lancheRepository.Lanches.Where(x => x.Categoria.CategoriaNome.Equals(categoria)).OrderBy(x => x.Nome);
                 novaCategoria = categoria;
             }
-          
-                
-            
+
+
+
             var lanchesListVM = new LanchesViewModel
             {
                 lanches = lanches,
@@ -48,10 +48,10 @@ namespace BurgerMVC.Controllers
 
         public ViewResult Search(string searchString)
         {
-            IEnumerable<Lanche> lanches;  
+            IEnumerable<Lanche> lanches;
             string categoriaAtual = string.Empty;
 
-            if(string.IsNullOrEmpty (searchString))
+            if (string.IsNullOrEmpty(searchString))
             {
                 lanches = _lancheRepository.Lanches.OrderBy(x => x.LancheId);
                 categoriaAtual = "todos os lanches";
@@ -60,11 +60,13 @@ namespace BurgerMVC.Controllers
             else
             {
                 lanches = _lancheRepository.Lanches.Where(x => x.Nome.ToLower().Contains(searchString.ToLower()));
-                if(lanches.Any() )
+                if (lanches.Any())
                 {
                     categoriaAtual = "lanches";
                 }
-                else { categoriaAtual = "Nenhum lanche foi encontrado";
+                else
+                {
+                    categoriaAtual = "Nenhum lanche foi encontrado";
                 }
             }
             return View("~/Views/Lanche/List.cshtml", new LanchesViewModel

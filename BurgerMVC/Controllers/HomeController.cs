@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BurgerMVC.Models.ViewModels;
-using BurgerMVC.Repository;
+using BurgerMVC.Repository.Interfaces;
 
 namespace BurgerMVC.Controllers
 {

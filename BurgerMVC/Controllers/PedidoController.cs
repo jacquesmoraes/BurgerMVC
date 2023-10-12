@@ -1,6 +1,6 @@
 ﻿using BurgerMVC.Context;
 using BurgerMVC.Models;
-using BurgerMVC.Repository;
+using BurgerMVC.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerMVC.Controllers

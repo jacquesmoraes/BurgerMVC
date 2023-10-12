@@ -1,4 +1,4 @@
-﻿using BurgerMVC.Repository;
+﻿using BurgerMVC.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 
