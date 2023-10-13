@@ -34,7 +34,7 @@ namespace BurgerMVC.Controllers
 
             var lanchesListVM = new LanchesViewModel
             {
-                lanches = lanches,
+                Lanches = lanches,
                 NovaCategoria = novaCategoria
             };
             return View(lanchesListVM);
@@ -71,7 +71,7 @@ namespace BurgerMVC.Controllers
             }
             return View("~/Views/Lanche/List.cshtml", new LanchesViewModel
             {
-                lanches = lanches,
+                Lanches = lanches,
                 NovaCategoria = categoriaAtual
             });
 

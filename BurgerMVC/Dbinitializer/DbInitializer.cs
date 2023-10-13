@@ -47,7 +47,7 @@ public class DbInitializer : IDbInitializer
             
         }, "\"Jacques40707\"").GetAwaiter().GetResult();
 
-        IdentityUser user =  _context.Users.FirstOrDefault(x => x.Email == "jacquesbmoraes@hotmail.com");
+        IdentityUser user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "jacquesbmoraes@hotmail.com");
           _userManager.AddToRoleAsync(user, Utilities.Helper.Admin).GetAwaiter().GetResult();
     }
 

@@ -1,6 +1,7 @@
 ﻿using BurgerMVC.Context;
 using BurgerMVC.Models;
 using BurgerMVC.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BurgerMVC.Repository
 {
@@ -14,8 +15,7 @@ namespace BurgerMVC.Repository
             _carrinhoCompra= carrinhoCompra;
         }
      
-
-            public void CriarPedido(Pedido pedido)
+         public void CriarPedido(Pedido pedido)
         {
             pedido.PedidoEnviado = DateTime.Now;
             _context.Pedidos.Add(pedido);

@@ -1,10 +1,21 @@
-﻿@model IEnumerable<BurgerMVC.Models.Lanche>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<BurgerMVC.Models.Lanche>
 
-@{
-    ViewData["Title"] = "Index";
-}
+
 
 <h1>Index</h1>
+
+<form method="get" class="form-check-inline">
+    <input name="filter" class="form-control" placeholder="filtro"
+           value="@Model.RouteValue["filter"]" />
+    <button type="submit" class="btn btn-info">
+        procurar
+    </button>
+
+</form>
+Total de Produtos: @Model.TotalRecordCount
+<div>
+    <vc:pager paging-list="@Model"></vc:pager>
+</div>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -18,16 +29,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.DescricaoCurta)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescricaoDetalhada)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.Preco)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagemUrl)
-            </th>
-           
             <th>
                 @Html.DisplayNameFor(model => model.IsLanchePreferido)
             </th>
@@ -49,16 +54,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DescricaoCurta)
             </td>
+          
             <td>
-                @Html.DisplayFor(modelItem => item.DescricaoDetalhada)
-            </td>
-            <td>
-                @item.Preco.ToString("C");
+                @item.Preco.ToString("C")
             </td>
            
-            <td>
-                <img src="@item.ImagemUrl" />
-            </td>
+         
             <td>
                 @Html.DisplayFor(modelItem => item.IsLanchePreferido)
             </td>

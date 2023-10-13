@@ -10,26 +10,37 @@ using BurgerMVC.Models;
 using BurgerMVC.Repository.Interfaces;
 using BurgerMVC.Repository.Exceptions;
 using BurgerHouse.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using ReflectionIT.Mvc.Paging;
 
 namespace BurgerMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminLanchesController : Controller
     {
         private readonly ILancheRepository _lancheRepository;
         private readonly ICategoriaRepository _categoriaRepository;
-
-        public AdminLanchesController(ILancheRepository lancheRepository, ICategoriaRepository categoriaRepository)
+        private readonly AppDbContext _context;
+        public AdminLanchesController(AppDbContext context, ILancheRepository lancheRepository, ICategoriaRepository categoriaRepository)
         {
             _lancheRepository = lancheRepository;
             _categoriaRepository = categoriaRepository;
+            _context = context;
         }
 
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string filter, int pageindex=1, string sort = "Nome")
         {
-            var appDbContext = await _lancheRepository.FindAllLanche();
-            return View(appDbContext);
+            var resultado = _context.Lanches.Include(x => x.Categoria).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(filter))
+            {
+                resultado = resultado.Where(x => x.Nome.Contains(filter));
+            }
+            var model = await PagingList.CreateAsync(resultado, 5, pageindex, sort, "Nome");
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+            return View(model);
         }
 
      

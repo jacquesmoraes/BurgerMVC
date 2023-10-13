@@ -1,3 +1,4 @@
+using BurgerMVC.Areas.Services;
 using BurgerMVC.Context;
 using BurgerMVC.Controllers;
 using BurgerMVC.Dbinitializer;
@@ -8,12 +9,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddPaging(options =>
+       { options.ViewName = "Bootstrap5";
+         options.PageParameterName = "pageindex";
 
+});
+builder.Services.AddScoped<RelatorioVendasService>();
 builder.Services.AddScoped<ILancheRepository, LancheRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();

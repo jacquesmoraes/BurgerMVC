@@ -1,0 +1,70 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<BurgerMVC.Models.Pedido>
+
+
+
+<h1>Pedidos</h1>
+
+<form method="get" class="form-check-inline">
+    <input name="filter" class="form-control" placeholder="filtro"
+           value="@Model.RouteValue["filter"]" />
+    <button type="submit" class="btn btn-info">
+        <div><i class="fa-solid fa-magnifying-glass"></i>procurar</div>
+    </button>
+
+</form>
+
+Total de pedidos: @Model.TotalRecordCount
+<div>
+    <vc:pager paging-list="@Model"></vc:pager>
+</div>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PedidoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.PedidoEnviado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PedidoEntregue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PedidoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PedidoEnviado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PedidoEntregue)
+                </td>
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.PedidoId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PedidoId">Delete</a> |
+                    <a asp-action="PedidoDetalhe" asp-route-id="@item.PedidoId">Itens Pedido</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
