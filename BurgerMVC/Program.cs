@@ -1,13 +1,10 @@
 using BurgerMVC.Areas.Services;
 using BurgerMVC.Context;
-using BurgerMVC.Controllers;
 using BurgerMVC.Dbinitializer;
 using BurgerMVC.Models;
 using BurgerMVC.Repository;
 using BurgerMVC.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
 
@@ -16,14 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddPaging(options =>
-       { options.ViewName = "Bootstrap5";
-         options.PageParameterName = "pageindex";
+       {
+           options.ViewName = "Bootstrap5";
+           options.PageParameterName = "pageindex";
 
-});
+       });
 builder.Services.AddScoped<RelatorioVendasService>();
 builder.Services.AddScoped<ILancheRepository, LancheRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.Configure<ConfigurationImages>(builder.Configuration.GetSection("ConfigurationPastaImagens"));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().
     AddEntityFrameworkStores<AppDbContext>().
     AddDefaultTokenProviders();
