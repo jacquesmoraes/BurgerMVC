@@ -40,9 +40,9 @@ namespace BurgerMVC.Controllers
             return View(lanchesListVM);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var lancheDet = _lancheRepository.GetLancheById(id);
+            var lancheDet = await _lancheRepository.GetLancheById(id);
             return View(lancheDet);
         }
 

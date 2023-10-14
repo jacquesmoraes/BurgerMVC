@@ -25,8 +25,7 @@ public class AdminPedidosController : Controller
 
     public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
     {
-        var resultado = _context.Pedidos.AsNoTracking()
-                                  .AsQueryable();
+        var resultado = _context.Pedidos.AsNoTracking().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(filter))
         {

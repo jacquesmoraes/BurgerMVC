@@ -4,6 +4,7 @@ using BurgerMVC.Dbinitializer;
 using BurgerMVC.Models;
 using BurgerMVC.Repository;
 using BurgerMVC.Repository.Interfaces;
+using FastReport.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
@@ -19,6 +20,8 @@ builder.Services.AddPaging(options =>
 
        });
 builder.Services.AddScoped<RelatorioVendasService>();
+builder.Services.AddScoped<RelatorioLanchesService>();
+builder.Services.AddScoped<GraficoVendasService>();
 builder.Services.AddScoped<ILancheRepository, LancheRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
@@ -36,7 +39,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.")));
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
-
+builder.Services.AddFastReport();
+FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
 
 
 
@@ -58,7 +62,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseFastReport();
 
 app.UseRouting();
 app.UseSession();

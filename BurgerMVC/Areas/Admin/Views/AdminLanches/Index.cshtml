@@ -18,7 +18,13 @@ Total de Produtos: @Model.TotalRecordCount
 </div>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New</a> |
+    <a asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReport">
+        gerar relatorio
+    </a> |
+    <a asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReportPdf">
+        gerar relatorio
+    </a>
 </p>
 <table class="table">
     <thead>

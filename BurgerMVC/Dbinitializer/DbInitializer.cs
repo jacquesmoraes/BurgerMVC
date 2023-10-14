@@ -28,7 +28,7 @@ public class DbInitializer : IDbInitializer
         }
         catch (Exception e)
         {
-            
+            throw new Exception(e.Message, e);
         }
 
         if (_context.Roles.Any(x => x.Name == Utilities.Helper.Admin))

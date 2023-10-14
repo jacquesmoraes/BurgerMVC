@@ -26,7 +26,7 @@ public class LancheRepository : ILancheRepository
 
     public async Task<Lanche> GetLancheById(int id)
     {
-        return await _context.Lanches.Include(c => c.Categoria).FirstOrDefaultAsync(x => x.LancheId == id);
+         return await _context.Lanches.Include(c => c.Categoria).FirstOrDefaultAsync(x => x.LancheId == id);
     }
 
     public async Task<List<Lanche>> FindAllLanche()

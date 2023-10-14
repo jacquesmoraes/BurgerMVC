@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BurgerMVC.Context;
+using BurgerMVC.Models;
+using BurgerMVC.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BurgerMVC.Context;
-using BurgerMVC.Models;
-using BurgerMVC.Repository.Interfaces;
-using BurgerMVC.Repository.Exceptions;
-using BurgerHouse.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 using ReflectionIT.Mvc.Paging;
+using System.Data;
 
 namespace BurgerMVC.Areas.Admin.Controllers
 {
@@ -30,11 +24,11 @@ namespace BurgerMVC.Areas.Admin.Controllers
             _context = context;
         }
 
-        
-        public async Task<IActionResult> Index(string filter, int pageindex=1, string sort = "Nome")
+
+        public async Task<IActionResult> Index(string filter, int pageindex = 1, string sort = "Nome")
         {
             var resultado = _context.Lanches.Include(x => x.Categoria).AsQueryable();
-            if(!string.IsNullOrWhiteSpace(filter))
+            if (!string.IsNullOrWhiteSpace(filter))
             {
                 resultado = resultado.Where(x => x.Nome.Contains(filter));
             }
@@ -43,7 +37,7 @@ namespace BurgerMVC.Areas.Admin.Controllers
             return View(model);
         }
 
-     
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _lancheRepository.Lanches == null)
@@ -60,14 +54,14 @@ namespace BurgerMVC.Areas.Admin.Controllers
             return View(lanche);
         }
 
-    
+
         public IActionResult Create()
         {
             ViewData["CategoriaId"] = new SelectList(_categoriaRepository.Categorias, "CategoriaId", "CategoriaNome");
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LancheId,Nome,DescricaoCurta,DescricaoDetalhada,Preco,ImagemUrl,ImgThumbUrl,IsLanchePreferido,EmEstoque,CategoriaId")] Lanche lanche)
@@ -103,7 +97,7 @@ namespace BurgerMVC.Areas.Admin.Controllers
             return View(lanche);
         }
 
-  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("LancheId,Nome,DescricaoCurta,DescricaoDetalhada,Preco,ImagemUrl,ImgThumbUrl,IsLanchePreferido,EmEstoque,CategoriaId")] Lanche lanche)
@@ -115,18 +109,19 @@ namespace BurgerMVC.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                 ModelState.AddModelError("", "Nao foi possivel editar");
+                ModelState.AddModelError("", "Nao foi possivel editar");
             }
-          
-            else { 
+
+            else
+            {
                 try
                 {
                     await _lancheRepository.UpdateCategoria(lanche);
-                 
+
                 }
                 catch (Exception e)
                 {
-                   RedirectToAction(nameof(e.Message));
+                    RedirectToAction(nameof(e.Message));
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -161,7 +156,7 @@ namespace BurgerMVC.Areas.Admin.Controllers
                 await _lancheRepository.RemoveLanche(id);
             }
 
-            
+
             return RedirectToAction(nameof(Index));
         }
 
