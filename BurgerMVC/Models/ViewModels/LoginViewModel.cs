@@ -11,13 +11,11 @@ namespace BurgerMVC.Models.ViewModels
         [DisplayName("Usuario")]
         public string  UserName { get; set; }
 
-
         [Required(ErrorMessage = "Informe a senha")]
         [DisplayName("senha")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-
+        [DisplayName("Lembrar")]
         public bool RememberMe { get; set; }
         public string ReturnUrl { get; set; }
     }

@@ -132,9 +132,16 @@ public class AdminPedidosController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var pedido = await _context.Pedidos.FindAsync(id);
-        _context.Pedidos.Remove(pedido);
-        await _context.SaveChangesAsync();
+        try
+        {
+            var pedido = await _context.Pedidos.FindAsync(id);
+            _context.Pedidos.Remove(pedido);
+            await _context.SaveChangesAsync();
+        }
+       catch(DbUpdateConcurrencyException e)
+        {
+            throw new DBConcurrencyException(e.Message);
+        }
         return RedirectToAction(nameof(Index));
     }
 

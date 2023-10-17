@@ -1,5 +1,7 @@
-﻿using BurgerMVC.Context;
+﻿using BurgerMVC.Areas.Admin.AdminRepository.AdminInterfaces;
+using BurgerMVC.Context;
 using BurgerMVC.Models;
+using BurgerMVC.Models.ViewModels;
 using BurgerMVC.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
 using System.Data;
+using System.Diagnostics;
 
 namespace BurgerMVC.Areas.Admin.Controllers
 {
@@ -14,10 +17,10 @@ namespace BurgerMVC.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminLanchesController : Controller
     {
-        private readonly ILancheRepository _lancheRepository;
+        private readonly IAdminLancheRepository _lancheRepository;
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly AppDbContext _context;
-        public AdminLanchesController(AppDbContext context, ILancheRepository lancheRepository, ICategoriaRepository categoriaRepository)
+        public AdminLanchesController(AppDbContext context, IAdminLancheRepository lancheRepository, ICategoriaRepository categoriaRepository)
         {
             _lancheRepository = lancheRepository;
             _categoriaRepository = categoriaRepository;
@@ -40,15 +43,15 @@ namespace BurgerMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _lancheRepository.Lanches == null)
+            if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
             }
 
             var lanche = await _lancheRepository.GetLancheById(id.Value);
             if (lanche == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not found" });
             }
 
             return View(lanche);
@@ -80,18 +83,18 @@ namespace BurgerMVC.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        // GET: Admin/Lanches/Edit/5
+      
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _lancheRepository.Lanches == null)
+            if (id == null )
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
             }
 
             var lanche = await _lancheRepository.GetLancheById(id.Value);
             if (lanche == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { Message = "Id not found" });
             }
             ViewData["CategoriaId"] = new SelectList(_categoriaRepository.Categorias, "CategoriaId", "CategoriaNome", lanche.CategoriaId);
             return View(lanche);
@@ -104,7 +107,10 @@ namespace BurgerMVC.Areas.Admin.Controllers
         {
             if (id != lanche.LancheId)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new
+                {
+                    Message = "Id not found"
+                });
             }
 
             if (!ModelState.IsValid)
@@ -129,37 +135,48 @@ namespace BurgerMVC.Areas.Admin.Controllers
             return View(lanche);
         }
 
-        //// GET: Admin/Lanches/Delete/5
+     
         public async Task<IActionResult> Delete(int? id)
         {
             var lanche = await _lancheRepository.GetLancheById(id.Value);
             if (lanche == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new
+                {
+                    Message = "Id not found"
+                });
             }
 
             return View(lanche);
         }
 
-        // POST: Admin/Lanches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_lancheRepository.Lanches == null)
+            if (_lancheRepository.FindAllLanche() == null)
             {
                 return Problem("Entity set 'AppDbContext.Lanches'  is null.");
             }
-            var lanche = await _lancheRepository.GetLancheById(id);
-            if (lanche != null)
+            try
             {
                 await _lancheRepository.RemoveLanche(id);
+                return RedirectToAction(nameof(Index));
             }
-
-
-            return RedirectToAction(nameof(Index));
+             catch(Exception e)
+            {
+                return RedirectToAction(nameof(e.Message));
+            }
         }
 
-
+        public IActionResult Error(string message)
+        {
+            var error = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                Message = message
+            };
+            return View(error);
+        }
     }
 }

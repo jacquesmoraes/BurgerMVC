@@ -1,16 +1,18 @@
 ﻿using BurgerMVC.Context;
+using BurgerMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BurgerMVC.Dbinitializer;
 
 public class DbInitializer : IDbInitializer
 {
     private readonly AppDbContext _context;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public DbInitializer(AppDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public DbInitializer(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
@@ -21,7 +23,7 @@ public class DbInitializer : IDbInitializer
     {
         try
         {
-            if (_context.Database.GetPendingMigrations().Count() > 0)
+            if (_context.Database.GetPendingMigrations().Any())
             {
                 _context.Database.Migrate();
             }
@@ -39,16 +41,20 @@ public class DbInitializer : IDbInitializer
         _roleManager.CreateAsync(new IdentityRole(Utilities.Helper.Admin)).GetAwaiter().GetResult();
         _roleManager.CreateAsync(new IdentityRole(Utilities.Helper.Member)).GetAwaiter().GetResult();
 
-         _userManager.CreateAsync(new IdentityUser
+         _userManager.CreateAsync(new ApplicationUser
          {
+             
             UserName = "jacquesbmoraes@hotmail.com",
             Email = "jacquesbmoraes@hotmail.com",
-            EmailConfirmed = true
-            
-        }, "\"Jacques40707\"").GetAwaiter().GetResult();
+            EmailConfirmed = true,
+             Name = "Jacques"
 
-        IdentityUser user = await _context.Users.FirstOrDefaultAsync(x => x.Email == "jacquesbmoraes@hotmail.com");
-          _userManager.AddToRoleAsync(user, Utilities.Helper.Admin).GetAwaiter().GetResult();
+         }, "\"Jacques40707\"").GetAwaiter().GetResult();
+
+        ApplicationUser user =  _context.Users.FirstOrDefault(x => x.Email == "jacquesbmoraes@hotmail.com");
+
+        _userManager.AddToRoleAsync(user, Utilities.Helper.Admin).GetAwaiter().GetResult();
+        
     }
 
    

@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\Produtos\1.jpg" />
+    <Content Remove="wwwroot\images\Produtos\acrilico2.jpg" />
+    <Content Remove="wwwroot\images\Produtos\acrilico3.jpg" />
+    <Content Remove="wwwroot\images\Produtos\acrilico34.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Account\AccessDenied.cshtml" />
     <None Include="Views\Account\Login.cshtml" />
     <None Include="Views\Account\Register.cshtml" />

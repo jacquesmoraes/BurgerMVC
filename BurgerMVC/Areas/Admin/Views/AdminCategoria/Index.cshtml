@@ -2,7 +2,7 @@
 @model IEnumerable<BurgerHouse.Models.Categoria>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -25,10 +25,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoriaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoriaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoriaId">Delete</a>
+            <td class="btn-group">
+                    <a class="btn" asp-action="Edit" asp-route-id="@item.CategoriaId">  <img width="20" src="~/images/editar.svg"></a> |
+                    <a class="btn" asp-action="Details" asp-route-id="@item.CategoriaId"> <img width="20" src="~/images/lupa.svg"> </a> |
+                    <a class="btn" asp-action="Delete" asp-route-id="@item.CategoriaId"> <img width="20" src="~/images/Delete.svg"></a>
             </td>
         </tr>
 }

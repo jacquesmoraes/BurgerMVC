@@ -1,3 +1,5 @@
+using BurgerMVC.Areas.Admin.AdminRepository;
+using BurgerMVC.Areas.Admin.AdminRepository.AdminInterfaces;
 using BurgerMVC.Areas.Services;
 using BurgerMVC.Context;
 using BurgerMVC.Dbinitializer;
@@ -23,10 +25,12 @@ builder.Services.AddScoped<RelatorioVendasService>();
 builder.Services.AddScoped<RelatorioLanchesService>();
 builder.Services.AddScoped<GraficoVendasService>();
 builder.Services.AddScoped<ILancheRepository, LancheRepository>();
+builder.Services.AddScoped<IAdminLancheRepository, AdminLancheRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<ConfigurationImages>(builder.Configuration.GetSection("ConfigurationPastaImagens"));
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
     AddEntityFrameworkStores<AppDbContext>().
     AddDefaultTokenProviders();
 builder.Services.AddAuthorization(options =>

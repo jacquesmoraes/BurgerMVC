@@ -1,14 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using System.Security.Claims
+@using BurgerMVC.Extension
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-light" title="Manage">Bem-vindo @User.Identity.Name</a>
+            <a id="manage" class="nav-link text-light" title="Manage">Bem-vindo:&nbsp; @User.GetName()
+            seu email: @User.Email() </a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-controller="Account" asp-action="Logout">
@@ -16,6 +17,7 @@
             </form>
         </li>
     }
+  
     else
     {
         <li class="nav-item">

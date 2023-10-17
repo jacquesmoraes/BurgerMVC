@@ -1,8 +1,11 @@
 ﻿@model ReflectionIT.Mvc.Paging.PagingList<BurgerMVC.Models.Lanche>
 
+@{
+    ViewData["Title"] = "Produtos";
+}
 
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <form method="get" class="form-check-inline">
     <input name="filter" class="form-control" placeholder="filtro"
@@ -13,17 +16,17 @@
 
 </form>
 Total de Produtos: @Model.TotalRecordCount
-<div>
+<div class="pagination  justify-content-center m-auto">
     <vc:pager paging-list="@Model"></vc:pager>
 </div>
 
 <p>
-    <a asp-action="Create">Create New</a> |
-    <a asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReport">
+    <a class="btn btn-primary" asp-action="Create">Create New</a> |
+    <a class="btn btn-info" asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReport">
         gerar relatorio
     </a> |
-    <a asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReportPdf">
-        gerar relatorio
+    <a class="btn btn-light" asp-controller="AdminLancheReport" asp-action="LanchesCategoriaReportPdf">
+        gerar PDF
     </a>
 </p>
 <table class="table">
@@ -35,7 +38,7 @@ Total de Produtos: @Model.TotalRecordCount
             <th>
                 @Html.DisplayNameFor(model => model.DescricaoCurta)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.Preco)
             </th>
@@ -52,35 +55,42 @@ Total de Produtos: @Model.TotalRecordCount
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescricaoCurta)
-            </td>
-          
-            <td>
-                @item.Preco.ToString("C")
-            </td>
-           
-         
-            <td>
-                @Html.DisplayFor(modelItem => item.IsLanchePreferido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmEstoque)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria.CategoriaNome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LancheId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LancheId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LancheId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescricaoCurta)
+                </td>
+
+                <td>
+                    @item.Preco.ToString("C")
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsLanchePreferido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmEstoque)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.CategoriaNome)
+                </td>
+                <td class="btn-group" >
+                    <a class="btn" asp-action="Edit" asp-route-id="@item.LancheId">
+                        <img width="20" src="~/images/editar.svg">
+                    </a> |
+                    <a class="btn" asp-action="Details" asp-route-id="@item.LancheId">
+                        <img width="20" src="~/images/lupa.svg">
+                    </a>|
+                    <a class="btn" asp-action="Delete" asp-route-id="@item.LancheId">
+                        <img width="20" src="~/images/Delete.svg">
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
